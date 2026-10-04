@@ -22,16 +22,16 @@
     "src/analysis/legacy-yoy.js": "38209b7f6490d2968562249575d08432787047eb68a0604ac161934de7da66b6",
     "src/presentation/selectors.js": "5673083c4839857624fc0e07fa8bd637745068f144d76fd2d3898ea0cda90462",
     "vendor/chartjs/chart.umd.js": "ecc3cd1eeb8c34d2178e3f59fd63ec5a3d84358c11730af0b9958dc886d7652a",
-    "src/presentation/chart-adapter.js": "70567326c7d3b378c0d4b1e21886e27fab68c88f9e458e33b6416fec33430481",
+    "src/presentation/chart-adapter.js": "76ddfbc890d2bd9e1e23e9ed3a80d87711f9252202ce6d2f0fc44a7f65d3499d",
     "src/presentation/views.js": "3f9dc6c90b3d9f980e6960f536eb7db6a5b13c382e8b2166e1c1cf55ca8b4572",
     "src/ui/trends-state.js": "f81fba1f6ad9c19f5bbb99764aa6b81fc851dab954077ef704f57efe6b80b080",
-    "src/presentation/trends-view.js": "0f507a5c927725416fda573d0e0aa1f571e0eb16cdd384bc83872a82b432fe9d",
+    "src/presentation/trends-view.js": "9720973ab2bd1ef561fef61daedc1bc9af59eb2c4941bb6a8d4480e8c9c9d011",
     "app.js": "7e3eded88cb22a8af770c72afdff14dfeb131bbd44b02355344f9efe5793c15f",
     "yoy-dashboard.js": "89585594f3fb5299aa67931b34d95b3227951fe264b7418761eef0a9420cd06a",
     "ratio-tooltips.js": "ec387179340ff4107b30b2dd0ef253b2c4e6a7876a26e7b8805665f56cadcdf4",
     "export-disclaimer.js": "5cb1aafef84c2a4849b409e5160bb9ca8384a6e4b7c27504dbed268de3baf574",
     "src/ui/controller.js": "f2d72d15082c1f5b6dc51360e581514875365315b2c3ef1defebbb009b9b9b34"
   },
-  "indexSha256": "3bdd8dfff6cbb4ffc1e1c6360eadcd4e87eb7c936faaff1dd2da872ff7e171f0",
+  "indexSha256": "e1fb643335ceeec7da833456ca8de27833bb0271bf530de7736801d47bbaf038",
   "packaging": "Local CSS/JS in original order, unchanged content; no financial transformation."
 }
