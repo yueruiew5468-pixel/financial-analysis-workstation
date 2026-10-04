@@ -2037,7 +2037,7 @@ body {
 
 </style>
     <style>
-/* Feature 002: scoped hierarchy; per-series plots remain transitional until T019. */
+/* Feature 002: scoped hierarchy and compatible grouped plots. */
 #financialCharts { min-width: 0; }
 .trends-workspace {
   display: grid;
@@ -2055,6 +2055,7 @@ body {
 .trends-workspace .trends-context { margin: 0 0 8px; color: var(--workstation-muted); font-size: .85rem; overflow-wrap: anywhere; }
 .trends-workspace .trends-notice { margin: 0 0 20px; padding-left: 10px; border-left: 3px solid var(--workstation-border); color: var(--workstation-muted); font-size: .8rem; line-height: 1.6; overflow-wrap: anywhere; }
 .trends-workspace h4 { font-size: .95rem; font-weight: 600; margin: 20px 0 10px; }
+.trends-workspace .trends-metric-metadata { display: block; margin-top: 4px; font-size: .8rem; font-weight: 400; line-height: 1.5; color: var(--workstation-muted); white-space: normal; overflow-wrap: anywhere; }
 .trends-workspace canvas { max-width: 100%; }
 .trends-workspace #trends-exact-detail-control, .trends-workspace summary { margin-top: 20px; padding: 12px; color: var(--workstation-accent); background: var(--workstation-surface); border: 1px solid var(--workstation-border); border-radius: var(--workstation-radius); font-size: .9rem; cursor: pointer; }
 .trends-workspace :is(button,summary,a):focus-visible { outline: 3px solid var(--workstation-accent); outline-offset: 3px; }
@@ -2078,6 +2079,66 @@ body {
   .trends-workspace > nav button { padding: 9px 8px; }
   .trends-workspace .yoy-kpi { grid-template-columns: minmax(0,1fr); }
   .trends-workspace .yoy-kpi small { grid-column: 1; }
+}
+
+/* US4: responsive detail and keyboard access, without removing observations. */
+.trends-workspace { position: relative; }
+.trends-workspace .trends-skip {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
+}
+.trends-workspace .trends-skip:focus {
+  position: static; width: auto; height: auto; clip-path: none; grid-column: 1 / -1;
+  padding: 12px; color: var(--workstation-accent); background: white;
+}
+.trends-workspace .trends-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.trends-workspace :is(h3,h4,h5,label,p,summary,button) { overflow-wrap: anywhere; }
+.trends-workspace :is(button,summary,select,[tabindex]):focus-visible { outline: 3px solid var(--workstation-accent); outline-offset: 3px; }
+.trends-workspace [tabindex], .trends-workspace :is(button,select,a,summary) { scroll-margin: 12px; }
+.trends-workspace [data-comparison-controls] { min-width: 0; padding: 4px; }
+.trends-workspace [data-comparison-domain] { margin: 16px 0 24px; }
+.trends-workspace [data-comparison-domain] h5 { font-size: .9rem; margin: 8px 0; }
+.trends-workspace [data-comparison-domain] label { display: block; margin: 12px 0 6px; }
+.trends-workspace [data-comparison-domain] select { width: 100%; max-width: 24rem; min-width: 0; min-height: 44px; font: inherit; color: var(--workstation-ink); background: white; border: 1px solid var(--workstation-muted); }
+.trends-workspace [data-exact-table-scroll] { overflow-x: auto; max-width: 100%; padding: 4px; }
+.trends-workspace [data-exact-table-scroll] table { min-width: 38rem; }
+.trends-workspace [data-exact-table-scroll] :is(th,td) { overflow-wrap: anywhere; }
+.trends-workspace [data-exact-table-scroll] td[data-value] { white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Scroll only the history table, not comparison controls or focus outlines. */
+
+@media (max-width: 1120px) {
+  .trends-workspace { grid-template-columns: minmax(0,1fr); }
+  .trends-workspace > nav { display: flex; flex-wrap: wrap; gap: 12px; }
+  .trends-workspace > nav > div { flex: 1 1 130px; min-width: 0; }
+  .trends-workspace > nav h3 { margin-top: 0; }
+}
+
+.trends-workspace .trends-chart-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 4px 0 12px; margin: 0; list-style: none; color: var(--workstation-muted); font-size: .85rem; }
+.trends-workspace .trends-chart-legend li { display: flex; align-items: baseline; gap: 8px; min-width: 0; max-width: 100%; }
+.trends-workspace .trends-chart-legend li > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+.trends-workspace .trends-bar-key { flex: 0 0 18px; height: 12px; border-style: solid; }
+.trends-workspace .trends-line-key { flex: 0 0 24px; border-top-width: 2px; position: relative; top: 6px; height: 12px; line-height: 0; text-align: center; }
+
+/* Comparison text can change height; keep browser anchoring off these replaced rows. */
+.trends-workspace [data-comparison-controls] { overflow-anchor: none; }
+
+/* Selected periods are read across columns; historical observations stay separate. */
+.trends-workspace [data-comparison-domain] { padding: 16px; border: 1px solid var(--workstation-border); border-radius: var(--workstation-radius); background: white; }
+.trends-workspace .trends-comparison-results { max-width: 100%; overflow-x: auto; }
+.trends-workspace .trends-comparison-results table { table-layout: fixed; }
+.trends-workspace .trends-comparison-results :is(th,td) { vertical-align: top; overflow-wrap: anywhere; }
+.trends-workspace .trends-comparison-results td { font-variant-numeric: tabular-nums; }
+.trends-workspace .trends-value-status { display: block; margin-top: 8px; color: var(--workstation-muted); font-size: .75rem; line-height: 1.5; }
+.trends-workspace .trends-data-status { min-width: 0; font-weight: 400; }
+.trends-workspace .trends-status-badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; }
+.trends-workspace .trends-status-badge { display: inline-block; padding: 3px 8px; border-radius: 5px; background: #eef2f6; color: #405369; font-size: .72rem; line-height: 1.5; overflow-wrap: anywhere; }
+.trends-workspace .trends-status-verification { background: #f8f2e6; color: #705526; }
+.trends-workspace .trends-status-explanation { margin-top: 6px; }
+.trends-workspace .trends-status-explanation > summary { display: list-item; width: fit-content; margin: 0; padding: 5px 2px; border: 0; border-radius: 3px; background: transparent; color: var(--workstation-muted); font-size: .72rem; line-height: 1.5; cursor: pointer; }
+.trends-workspace .trends-status-explanation > p { margin: 4px 0 0; max-width: 32ch; font-size: .75rem; line-height: 1.6; color: var(--workstation-muted); overflow-wrap: anywhere; }
+.trends-workspace .trends-timing-context { font-size: .8rem; color: var(--workstation-muted); line-height: 1.5; }
+@media (max-width: 760px) {
+  .trends-workspace [data-comparison-domain] { padding: 10px; }
+  .trends-workspace .trends-comparison-results :is(th,td) { padding: 8px 4px; }
 }
 
 </style>
@@ -4804,7 +4865,34 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
   const displayBasis = series => balanceTTM(series) ? '期末餘額' : series.basisLabel;
   const displayPeriod = (series, period) => balanceTTM(series) ? String(period).replace(/\s+TTM$/, '') + ' 期末' : period;
   const seriesTitle = series => `${series.label} · ${displayBasis(series)} · ${series.unitLabel}`;
-  function createExactTable(model) {
+  function setTrendHeading(heading, series) {
+    const name = element('span', series.map(s => s.label).join(' / '));
+    const metadata = element('span', [...new Set(series.map(s => `${displayBasis(s)} · 單位：${s.unitLabel}`))].join(' / '));
+    metadata.className = 'trends-metric-metadata';
+    heading.replaceChildren(name, global.document.createTextNode(' '), metadata);
+  }
+  function pointStatus(point) {
+    const categories = {calculated:'計算結果', unverifiedValue:'待核對數值', sourceVerified:'來源數值', systemInterpretation:'系統判讀', humanJudgment:'人工判斷'};
+    const states = {unverified:'來源尚未核對', verified:'已核對', unableToVerify:'無法核對'};
+    return `${categories[point.category] || point.category}｜${states[point.verificationState] || point.verificationState} · ${point.reason}`;
+  }
+  function createPointStatus(point) {
+    const root = element('div'); root.className = 'trends-data-status';
+    const badges = element('div'); badges.className = 'trends-status-badges';
+    const categories = {calculated:'計算結果', unverifiedValue:'待核對數值', sourceVerified:'來源數值', systemInterpretation:'系統判讀', humanJudgment:'人工判斷'};
+    const states = {unverified:'來源尚未核對', verified:'已核對', unableToVerify:'無法核對'};
+    const category = element('span', categories[point.category] || point.category);
+    category.className = 'trends-status-badge';
+    const state = element('span', states[point.verificationState] || point.verificationState);
+    state.className = 'trends-status-badge trends-status-verification';
+    badges.append(category, state); root.append(badges);
+    if (point.reason) {
+      const detail = element('details'); detail.className = 'trends-status-explanation';
+      detail.append(element('summary', '核對說明'), element('p', point.reason)); root.append(detail);
+    }
+    return root;
+  }
+  function createExactTable(model, readableStatus = false) {
     const result = element('table');
     result.append(element('caption', `${model.label} · ${model.basisLabel} · 風險基準：${model.riskBasis}`));
     const head = element('thead'), headers = element('tr');
@@ -4817,17 +4905,27 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
       const s = model.series.find(s => s.id === row.seriesId);
       const point = s.points.find(p => p.period === row.period);
       const tr = element('tr'), th = element('th', seriesTitle(s));
+      if (readableStatus) setTrendHeading(th, [s]);
       th.scope = 'row'; tr.append(th, element('td', displayPeriod(s, row.period)));
       // Keep the canonical value intact; percent formatting changes display only.
       const value = element('td', row.value === null ? '無法取得' : s.format === 'percent' ? new Intl.NumberFormat('zh-TW', {style:'percent', maximumSignificantDigits:21}).format(row.value) : String(row.value));
       value.dataset.seriesId = s.id; value.dataset.period = row.period;
       value.dataset.value = JSON.stringify(row.value); value.dataset.availability = point.availability;
-      tr.append(value, element('td', `${point.category} / ${point.verificationState} · ${point.reason}`)); body.append(tr);
+      const status = element('td');
+      if (readableStatus) status.append(createPointStatus(point));
+      else status.textContent = `${point.category} / ${point.verificationState} · ${point.reason}`;
+      tr.append(value, status); body.append(tr);
     }
     result.append(body); return result;
   }
   function table(handle) {
-    handle.table.replaceChildren(createExactTable(handle.model));
+    const exact = createExactTable(handle.model, handle.workspace);
+    if (handle.workspace) {
+      const scroll = element('div'); scroll.dataset.exactTableScroll = '';
+      scroll.tabIndex = 0; scroll.setAttribute('role', 'region');
+      scroll.setAttribute('aria-label', `${handle.model.label}完整數值，可左右捲動`);
+      scroll.append(exact); handle.table.replaceChildren(element('h5', '完整歷史數值'), scroll);
+    } else handle.table.replaceChildren(exact);
     handle.tableModel = handle.model;
   }
   function setDetailOpen(handle, open) {
@@ -4853,11 +4951,11 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
     return W.projectTrendFamily(handle.model).plotGroups.map(group => ({...group,
       key:JSON.stringify(group.series.map(s => [s.id,s.unit,s.basis,s.timing || null,s.points.map(p => p.period)]))}));
   }
+  const markers = ['circle', 'rect', 'triangle', 'cross', 'star', 'rectRot'];
+  const colors = ['#2563eb', '#b45309', '#047857', '#7e22ce', '#be123c', '#0e7490'];
   const plotTitle = group => group.series.map(seriesTitle).join(' / ');
   function groupedConfig(model, group) {
     const result = config(model, group.series[0]);
-    const markers = ['circle', 'rect', 'triangle', 'cross', 'star', 'rectRot'];
-    const colors = ['#2563eb', '#b45309', '#047857', '#7e22ce', '#be123c', '#0e7490'];
     const bars = result.type === 'bar';
     result.data.datasets = group.series.map((s,i) => ({...config(model,s).data.datasets[0],
       backgroundColor:colors[i % colors.length], borderColor:colors[i % colors.length],
@@ -4886,6 +4984,12 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
     try {
       for (const group of handle.groups) {
         const next = handle.grouped ? groupedConfig(handle.model, group) : config(handle.model, group.series[0]), current = handle.charts.get(group.key);
+        if (handle.workspace) {
+          // Thin labels only: every canonical observation remains in datasets/tables.
+          Object.assign(next.options.scales.x.ticks, {autoSkip:true, maxTicksLimit:Math.max(2, Math.floor(handle.container.clientWidth / 110)), autoSkipPadding:16, minRotation:0, maxRotation:0});
+          next.options.plugins.legend.labels.color = '#334155';
+          if (handle.accessibleLegend) next.options.plugins.legend.display = false;
+        }
         if (current) {
           if (handle.renderedModel !== handle.model) { current.data = next.data; current.options = next.options; current.update('none'); }
           current.resize();
@@ -4911,7 +5015,21 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
   function layout(handle) {
     disposeCharts(handle); handle.canvases.clear(); handle.plots.replaceChildren();
     for (const group of handle.groups) {
-      const section = element('section'); section.append(element('h4', plotTitle(group)));
+      const section = element('section'), heading = element('h4', plotTitle(group));
+      if (handle.workspace) setTrendHeading(heading, group.series);
+      section.append(heading);
+      if (handle.accessibleLegend) {
+        const legend = element('ul'); legend.className = 'trends-chart-legend'; legend.setAttribute('aria-label', '圖例');
+        group.series.forEach((s, i) => {
+          const item = element('li'), swatch = element('span'); swatch.setAttribute('aria-hidden', 'true');
+          swatch.className = s.unit === 'millionTWD' ? 'trends-bar-key' : 'trends-line-key';
+          swatch.style.color = colors[i % colors.length];
+          if (s.unit === 'millionTWD') { swatch.style.backgroundColor = colors[i % colors.length]; swatch.style.borderWidth = (i + 1) + 'px'; }
+          else { swatch.style.borderTopStyle = i ? 'dashed' : 'solid'; swatch.textContent = ['●','■','▲','+','★','◆'][i % markers.length]; }
+          item.append(swatch, element('span', s.label)); legend.append(item);
+        });
+        section.append(legend);
+      }
       const frame = element('div'); frame.style.position = 'relative'; frame.style.height = '240px'; frame.style.minWidth = '0';
       const canvas = element('canvas'); canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', `${group.series.map(s => s.label).join(" / ")}，完整數值見資料表`);
       frame.append(canvas); section.append(frame); handle.plots.append(section); handle.canvases.set(group.key, canvas);
@@ -4927,15 +5045,19 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
     else { handle.table.replaceChildren(); handle.tableModel = null; }
     if (!prepare(handle)) return handle;
     if (changed || previousGroups !== handle.groups.map(g => g.key).join("|")) layout(handle);
-    else handle.groups.forEach((g, i) => { handle.plots.children[i].querySelector('h4').textContent = plotTitle(g); });
+    else handle.groups.forEach((g, i) => {
+      const section = handle.plots.children[i]; section.querySelector('h4').textContent = plotTitle(g);
+      if (handle.workspace) setTrendHeading(section.querySelector('h4'), g.series);
+      section.querySelectorAll('.trends-chart-legend li > span:last-child').forEach((label, j) => { label.textContent = g.series[j].label; });
+    });
     sync(handle); return handle;
   }
   function mount(container, model, options = {}) {
     if (mounted.has(container)) return update(mounted.get(container), model);
     const root = element('div'), plots = element('div'), fallback = element('div'), status = element('p');
-    status.setAttribute('role', 'status'); fallback.style.overflowX = 'auto';
+    status.setAttribute('role', 'status'); status.setAttribute('aria-label', '圖表狀態'); fallback.style.overflowX = options.workspace === true ? 'visible' : 'auto';
     root.append(plots, status, fallback); container.append(root);
-    const handle = {container, root, plots, table:fallback, status, model, charts:new Map(), canvases:new Map(), destroyed:false, workspace:options.workspace === true, grouped:options.grouped === true, groups:[]};
+    const handle = {container, root, plots, table:fallback, status, model, charts:new Map(), canvases:new Map(), destroyed:false, workspace:options.workspace === true, grouped:options.grouped === true, accessibleLegend:options.accessibleLegend === true, groups:[]};
     if (handle.workspace) {
       const button = element('button', '比較期間與完整數值'); button.type = 'button';
       button.id = `trends-detail-control-${++detailId}`; fallback.id = `trends-detail-${detailId}`;
@@ -4956,7 +5078,7 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
     handle.destroyed = true; handle.visibility.disconnect(); handle.size.disconnect();
     disposeCharts(handle); handle.root.remove(); mounted.delete(handle.container);
   }
-  W.chartAdapter = Object.freeze({mount, update, resize:sync, destroy, createExactTable, setDetailOpen, isBalance});
+  W.chartAdapter = Object.freeze({mount, update, resize:sync, destroy, createExactTable, setDetailOpen, isBalance, setTrendHeading, pointStatus, createPointStatus});
 })(window);
 
 </script>
@@ -5282,20 +5404,25 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
     nav.setAttribute('aria-label', '財務趨勢主題');
     region.id = 'trends-active-family'; title.id = 'trends-family-heading'; title.tabIndex = -1;
     region.setAttribute('aria-labelledby', title.id); region.append(title, context, semantics, notice, plots);
-    root.append(nav, region); container.append(root);
+    const skip = node('a', '跳至目前趨勢內容'); skip.href = '#' + title.id; skip.className = 'trends-skip';
+    skip.addEventListener('click', event => { event.preventDefault(); title.focus({preventScroll:true}); title.scrollIntoView({block:'start', behavior:'auto'}); });
+    root.append(skip, nav, region); container.append(root);
     const buttons = new Map(); let handle = null, activeDomains = [], resetSeen = session.getState().comparisonReset;
-    const comparisonStatus = node('p'); comparisonStatus.setAttribute('role', 'status'); comparisonStatus.setAttribute('aria-live', 'polite');
+    const comparisonStatus = node('p'); comparisonStatus.id = 'trends-context-status';
+    comparisonStatus.className = 'trends-live'; comparisonStatus.setAttribute('role', 'status');
+    comparisonStatus.setAttribute('aria-live', 'polite'); comparisonStatus.setAttribute('aria-atomic', 'true');
+    let announcedContext = '', announcedPairs = '';
     region.insertBefore(comparisonStatus, plots);
     function comparisonDetail() {
       if (!handle || handle.table.hidden) return;
-      handle.table.querySelector('[data-comparison-controls]')?.remove();
+      const previous = handle.table.querySelector('[data-comparison-controls]');
       const comparisons = node('div'); comparisons.dataset.comparisonControls = '';
       activeDomains.forEach((domain, index) => {
         const group = node('div'); group.setAttribute('role', 'group');
         group.dataset.comparisonDomain = domain.id; group.dataset.basis = domain.basis; group.dataset.timing = domain.timing;
         const series = domain.series[0], balance = series.basis === 'ttm' && W.chartAdapter.isBalance(series);
         const periodLabel = period => balance ? String(period).replace(/\s+TTM$/, '') + ' 期末' : period;
-        const heading = node('h5', domain.series.map(s => s.label).join(' / ') + ' · ' + (balance ? '期末餘額' : series.basisLabel) + ' · ' + series.unitLabel);
+        const heading = node('h5'); W.chartAdapter.setTrendHeading(heading, domain.series);
         heading.id = 'trends-comparison-heading-' + index; group.setAttribute('aria-labelledby', heading.id); group.append(heading);
         const pair = session.getState().comparisonByDomain[domain.id];
         ['比較期間一', '比較期間二'].forEach((name, position) => {
@@ -5314,19 +5441,51 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
           group.append(label, control);
         });
         if (pair.length < 2) group.append(node('p', pair.length ? '只有一個已提供期間，無第二期間可比較。' : '沒有已提供期間，無法比較。'));
-        for (const s of domain.series) for (const period of pair) {
-          const point = s.points.find(p => p.period === period);
-          const item = node('p', s.label + ' · ' + periodLabel(period) + ' · ' + s.unitLabel + '：');
-          const value = node('span', point.value === null ? '無法取得' : s.format === 'percent'
-            ? new Intl.NumberFormat('zh-TW', {style:'percent', maximumSignificantDigits:21}).format(point.value) : String(point.value));
-          value.dataset.comparisonValue = ''; value.dataset.seriesId = s.id; value.dataset.period = period;
-          value.dataset.value = Object.is(point.value, -0) ? '-0' : String(point.value);
-          item.append(value, node('span', ' · ' + point.category + ' / ' + point.verificationState + ' · ' + point.reason));
-          group.append(item);
+        const results = node('div'); results.className = 'trends-comparison-results';
+        const table = node('table'), caption = node('caption', '期間比較'), head = node('thead'), columns = node('tr');
+        table.append(caption);
+        for (const text of ['指標', ...pair.map(periodLabel)]) {
+          const th = node('th', text); th.scope = 'col'; columns.append(th);
         }
+        head.append(columns); table.append(head);
+        const body = node('tbody');
+        for (const s of domain.series) {
+          const row = node('tr'), label = node('th', s.label);
+          label.scope = 'row';
+          const unit = node('span', '單位：' + s.unitLabel); unit.className = 'trends-metric-metadata'; label.append(unit); row.append(label);
+          for (const period of pair) {
+            const point = s.points.find(p => p.period === period), cell = node('td');
+            const value = node('span', point.value === null ? '無法取得' : s.format === 'percent'
+              ? new Intl.NumberFormat('zh-TW', {style:'percent', maximumSignificantDigits:21}).format(point.value) : String(point.value));
+            value.dataset.comparisonValue = ''; value.dataset.seriesId = s.id; value.dataset.period = period;
+            value.dataset.value = Object.is(point.value, -0) ? '-0' : String(point.value);
+            const status = W.chartAdapter.createPointStatus(point); status.classList.add('trends-value-status');
+            cell.append(value, status); row.append(cell);
+          }
+          body.append(row);
+        }
+        table.append(body); results.append(table); group.append(results);
         comparisons.append(group);
       });
-      handle.table.prepend(comparisons);
+      // Keep live selects attached during a period-only refresh. Replacing the focused
+      // native select can trigger browser scroll anchoring after focus restoration.
+      const oldGroups = previous ? [...previous.children] : [];
+      const newGroups = [...comparisons.children];
+      const compatible = previous && oldGroups.length === newGroups.length && oldGroups.every((old, i) =>
+        old.dataset.comparisonDomain === newGroups[i].dataset.comparisonDomain);
+      if (compatible) {
+        oldGroups.forEach((old, i) => {
+          const next = newGroups[i]; old.querySelector('h5').replaceChildren(...next.querySelector('h5').childNodes);
+          old.querySelectorAll('select').forEach((control, j) => {
+            const replacement = next.querySelectorAll('select')[j];
+            control.value = replacement.value; control.disabled = replacement.disabled;
+            [...control.options].forEach((option, k) => { option.disabled = replacement.options[k].disabled; });
+          });
+          old.querySelectorAll('p').forEach(p => p.remove());
+          old.append(...next.querySelectorAll('p'));
+          old.querySelector('.trends-comparison-results').replaceWith(next.querySelector('.trends-comparison-results'));
+        });
+      } else { previous?.remove(); handle.table.prepend(comparisons); }
     }
     const groups = [['成長與獲利', ['revenue', 'profitability']], ['現金與融資', ['cashflow', 'liquidityLeverage']], ['營運資金', ['receivablesInventory', 'workingCapital']]];
     function dispose() { W.legacyYoYPresentation?.detach(); legacy.remove(); legacy.open = false; if (handle) W.chartAdapter.destroy(handle); handle = null; delete region.dataset.chartFamily; }
@@ -5334,10 +5493,14 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
       session.dispatch({type:'comparisonDomains', domains:models.flatMap(m => W.projectTrendFamily(m).comparisonDomains)});
       const state = session.getState(), model = models.find(m => m.family === state.family);
       activeDomains = W.projectTrendFamily(model).comparisonDomains;
+      const currentContext = `${workspaceLabel} · ${model.label} · ${model.basisLabel}`;
+      const currentPairs = JSON.stringify(activeDomains.map(d => state.comparisonByDomain[d.id]));
       if (state.comparisonReset !== resetSeen) {
-        comparisonStatus.textContent = '資料情境已更新；比較期間與來源參照已重設。';
+        comparisonStatus.textContent = currentContext + '。資料情境已更新；比較期間與來源參照已重設。';
         resetSeen = state.comparisonReset;
-      }
+      } else if (currentContext !== announcedContext) comparisonStatus.textContent = currentContext;
+      else if (currentPairs !== announcedPairs) comparisonStatus.textContent = '比較期間已更新。';
+      announcedContext = currentContext; announcedPairs = currentPairs;
       if (!buttons.size) for (const [label, families] of groups) {
         const group = node('div'); group.append(node('h3', label));
         for (const family of families) {
@@ -5358,10 +5521,10 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
       semantics.hidden = !(model.basis === 'ttm' && model.series.some(W.chartAdapter.isBalance));
       semantics.textContent = semantics.hidden ? '' : 'TTM 模式：流量指標採近四季累計；資產負債表指標採各季期末餘額。';
       // Surface canonical material states; no verification upgrade or generated interpretation.
-      notice.textContent = [...new Set(model.series.flatMap(s => s.points.map(p => `${p.category} / ${p.verificationState} · ${p.reason}`)))].join('；');
+      notice.textContent = '資料核對狀態依指標與期間分列於數值明細；可計算不代表來源已核對。';
       if (handle) W.chartAdapter.update(handle, model);
       else {
-        handle = W.chartAdapter.mount(plots, model, {workspace:true, grouped:true});
+        handle = W.chartAdapter.mount(plots, model, {workspace:true, grouped:true, accessibleLegend:true});
         handle.detailButton.id = 'trends-exact-detail-control';
         handle.table.setAttribute('aria-labelledby', handle.detailButton.id);
         handle.detailButton.addEventListener('click', () => {
@@ -5375,7 +5538,12 @@ global.FinancialWorkstation.selectors = {parseDisplayedPercent,formatPercentPoin
       const chartState = handle.status.textContent ? (typeof global.Chart === 'function' ? 'failed' : 'unavailable') : 'ready';
       session.dispatch({type:'chart', token:session.getState(), chartState});
       if (focusedInside && !region.contains(global.document.activeElement)) {
-        global.document.getElementById(state.returnFocusKey)?.focus({preventScroll:true});
+        const origin = global.document.getElementById(state.returnFocusKey);
+        const target = origin && root.contains(origin) ? origin : handle.detailButton;
+        target.focus({preventScroll:true});
+        const rect = target.getBoundingClientRect();
+        if (rect.top < 0 || rect.bottom > global.innerHeight || rect.left < 0 || rect.right > global.innerWidth)
+          target.scrollIntoView({block:'nearest', inline:'nearest', behavior:'auto'});
       }
     }
     return Object.freeze({update, destroy(){dispose();root.remove();}, resize(){if(handle)W.chartAdapter.resize(handle);}});
@@ -6515,7 +6683,9 @@ dom.exportReport.addEventListener("click", exportReport);
         const target=navigationTarget&&document.getElementById(navigationTarget);
         if(target&&document.activeElement===target){
           const top=target.getBoundingClientRect().top;
-          if(top<0||top>=global.innerHeight)target.scrollIntoView({block:'start',behavior:'auto'});
+          const heading = chartHost.querySelector('#trends-family-heading');
+          if(top<0||top>=global.innerHeight||(top>0&&heading?.getBoundingClientRect().bottom>global.innerHeight))
+            target.scrollIntoView({block:'start',behavior:'auto'});
         }
       }));
     },

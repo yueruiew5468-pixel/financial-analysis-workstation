@@ -1,5 +1,5 @@
 {
-  "sourceRevision": "ed03e1fc57b0000e47fbe80254bdf45e43aba5a4",
+  "sourceRevision": "13e031914da9b8bfe7551d5336ee286c7db6f0a2",
   "site": "https://yueruiew5468-pixel.github.io/financial-analysis-workstation/",
   "sourcesSha256": {
     "index.html": "fe2f1245b2e37338405951f02a3de99bfcbe2bc6d3951e7068ae2a80543669ce",
@@ -8,7 +8,7 @@
     "ratio-tooltips.css": "7451a73f07975f34bae8d27a60036fd5b13244addec44b187d3fd7863822f0f4",
     "disclaimer.css": "ac9a8658b2ccaec32aded3c2a6341dfe2054539277e2520b24e1a58c4c14a174",
     "yoy-dashboard.css": "52afb0872d4d6ef49bb41913af4f117eae3b7e9c365dd01ac6614b5a963c0d0a",
-    "src/ui/trends.css": "5e06d6279b1450b6eeb544592ea43fb1dfb39614f14f9ea4b6769debe7e9bd25",
+    "src/ui/trends.css": "b7860ac71b96326ca8435233c9da6bd1df3a48698ba2de9eb1d7689f140c8ca7",
     "analysis-engine.js": "f99ec11e9c7f3ffee752e286bc09516ef0d73592fb9ee05502081e1b2d145b70",
     "analysis-overrides.js": "890881c18f6e2317bcd7cc3d13d4949a0d6008f9662e407a9bb6adf12772a3c3",
     "data/mops/3324_auras/auras_mops_data.js": "5e914d74667a7f3b0a45e457c1b97fd8b7b56996ee079d2b19a12552c426aa1d",
@@ -22,16 +22,16 @@
     "src/analysis/legacy-yoy.js": "38209b7f6490d2968562249575d08432787047eb68a0604ac161934de7da66b6",
     "src/presentation/selectors.js": "5673083c4839857624fc0e07fa8bd637745068f144d76fd2d3898ea0cda90462",
     "vendor/chartjs/chart.umd.js": "ecc3cd1eeb8c34d2178e3f59fd63ec5a3d84358c11730af0b9958dc886d7652a",
-    "src/presentation/chart-adapter.js": "9fcc34a7d0e1c2852c97157a388386853c4b01f457432e4b73e70abeb4a0495f",
+    "src/presentation/chart-adapter.js": "70567326c7d3b378c0d4b1e21886e27fab68c88f9e458e33b6416fec33430481",
     "src/presentation/views.js": "3f9dc6c90b3d9f980e6960f536eb7db6a5b13c382e8b2166e1c1cf55ca8b4572",
     "src/ui/trends-state.js": "f81fba1f6ad9c19f5bbb99764aa6b81fc851dab954077ef704f57efe6b80b080",
-    "src/presentation/trends-view.js": "79141cd6b3fd4c9822d4ec3fa077e2e87a144c504c75cef00b1a5a5dffec3232",
+    "src/presentation/trends-view.js": "0f507a5c927725416fda573d0e0aa1f571e0eb16cdd384bc83872a82b432fe9d",
     "app.js": "7e3eded88cb22a8af770c72afdff14dfeb131bbd44b02355344f9efe5793c15f",
     "yoy-dashboard.js": "89585594f3fb5299aa67931b34d95b3227951fe264b7418761eef0a9420cd06a",
     "ratio-tooltips.js": "ec387179340ff4107b30b2dd0ef253b2c4e6a7876a26e7b8805665f56cadcdf4",
     "export-disclaimer.js": "5cb1aafef84c2a4849b409e5160bb9ca8384a6e4b7c27504dbed268de3baf574",
-    "src/ui/controller.js": "8bdf6369fadb6d3f89f73d8a32cab719b074136cd4386609cd152dfb4e861d87"
+    "src/ui/controller.js": "f2d72d15082c1f5b6dc51360e581514875365315b2c3ef1defebbb009b9b9b34"
   },
-  "indexSha256": "dfb4f1c8bdd97440defd9665c2ff618213ad07b7401e259b9dc6431a04444b5a",
+  "indexSha256": "3bdd8dfff6cbb4ffc1e1c6360eadcd4e87eb7c936faaff1dd2da872ff7e171f0",
   "packaging": "Local CSS/JS in original order, unchanged content; no financial transformation."
 }
